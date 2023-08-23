@@ -1,5 +1,18 @@
 services:
+    proxy:
+        image: nginx:latest
+        ports:
+            - 81:80
+            - 443:443
+        volumes:
+            - ./proxy/conf/nginx.conf:/etc/nginx/nginx.conf
+            - ./proxy/certs:/etc/nginx/certs
+        depends_on:
+            - laravel.test
+        networks:
+            - sail
     laravel.test:
+        container_name: laravel.test
         build:
             context: ./vendor/laravel/sail/runtimes/8.2
             dockerfile: Dockerfile
